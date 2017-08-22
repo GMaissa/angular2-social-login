@@ -106,21 +106,15 @@ export class AuthService {
         return Observable.create((observer: any) => {
             switch(provider){
                 case "google":
-                                let gElement = document.getElementById("gSignout");
-                                if (typeof(gElement) != 'undefined' && gElement != null)
-                                {
-                                    gElement.remove();
+                                if (typeof(this.gauth) == "undefined") {
+                                  this.gauth = gapi.auth2.getAuthInstance();
                                 }
-                                let d = document, gSignout;
-                                let ref: any = d.getElementsByTagName('script')[0];
-                                gSignout = d.createElement('script');
-                                gSignout.src = "https://accounts.google.com/Logout";
-                                gSignout.type = "text/html";
-                                gSignout.id = "gSignout";
+                                if (this.gauth.isSignedIn.get()) {
+                                  this.gauth.disconnect();
+                                }
                                 localStorage.removeItem('_login_provider');
                                 observer.next(true);
                                 observer.complete();
-                                ref.parentNode.insertBefore(gSignout, ref);
                                 break;
                 case "facebook":
                                 FB.logout(function(res: any){
