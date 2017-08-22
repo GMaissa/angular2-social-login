@@ -96,24 +96,20 @@ var AuthService = (function () {
         });
     };
     AuthService.prototype.logout = function () {
+        var _this = this;
         var provider = localStorage.getItem("_login_provider");
         return rxjs_Observable.Observable.create(function (observer) {
             switch (provider) {
                 case "google":
-                    var gElement = document.getElementById("gSignout");
-                    if (typeof (gElement) != 'undefined' && gElement != null) {
-                        gElement.remove();
+                    if (typeof (_this.gauth) == "undefined") {
+                        _this.gauth = gapi.auth2.getAuthInstance();
                     }
-                    var d = document, gSignout = void 0;
-                    var ref = d.getElementsByTagName('script')[0];
-                    gSignout = d.createElement('script');
-                    gSignout.src = "https://accounts.google.com/Logout";
-                    gSignout.type = "text/html";
-                    gSignout.id = "gSignout";
+                    if (_this.gauth.isSignedIn.get()) {
+                        _this.gauth.disconnect();
+                    }
                     localStorage.removeItem('_login_provider');
                     observer.next(true);
                     observer.complete();
-                    ref.parentNode.insertBefore(gSignout, ref);
                     break;
                 case "facebook":
                     FB.logout(function (res) {
