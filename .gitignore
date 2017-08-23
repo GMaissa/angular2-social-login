@@ -2,6 +2,7 @@
 /typings
 npm-debug.log
 .vscode
-*.metadata.json
+*.ngsummary.json
+*.ngfactory.json
 *.map.js
 /src/**/*.js
