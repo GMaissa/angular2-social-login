@@ -101,7 +101,7 @@ var AuthService = (function () {
                         _this.gauth = gapi.auth2.getAuthInstance();
                     }
                     if (_this.gauth.isSignedIn.get()) {
-                        _this.gauth.disconnect();
+                        _this.gauth.signOut();
                     }
                     localStorage.removeItem('_login_provider');
                     observer.next(true);

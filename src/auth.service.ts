@@ -110,7 +110,7 @@ export class AuthService {
                                   this.gauth = gapi.auth2.getAuthInstance();
                                 }
                                 if (this.gauth.isSignedIn.get()) {
-                                  this.gauth.disconnect();
+                                  this.gauth.signOut();
                                 }
                                 localStorage.removeItem('_login_provider');
                                 observer.next(true);
